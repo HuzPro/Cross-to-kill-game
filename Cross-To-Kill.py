@@ -5,9 +5,9 @@ turnCount = 0
 gamemap = [[' ',' ',' '],
           [' ',' ',' '],
           [' ',' ',' ']]
-coordinatesmap = [['1','2','3'],
+coordinatesmap = [['7','8','9'],
                  ['4','5','6'],
-                 ['7','8','9']]
+                 ['1','2','3']]
 coordinate = 0
 
 
@@ -23,9 +23,11 @@ def CoinToss():
     import random
     toss = random.randint(1,2)
     if toss == 1:
-        print("Player 1 Won the Toss!!!\n")
+        print("Player 1 Won the Toss!!!")
+        print("------------------------------------------------")
     elif toss == 2:
-        print("Player 2 Won the Toss!!!\n")
+        print("Player 2 Won the Toss!!!")
+        print("------------------------------------------------")
     return toss
 
 
@@ -38,29 +40,51 @@ def NextTurn(turn):
 
 
 def ExecuteTurn(P1, P2, turn):
-    if turn == 1: #need to cancel out places already reserved
-        print("It's Player1's Turn!")
+    flag = 0
+    if turn == 1:
+        print(end="It's Player1's Turn!")
         print("(Refer to the Coordinate map)")
         DisplayMap(coordinatesmap)
-        coordinate = input('\nEnter your Coordinates for your coin:')
-        for posY in range(len((gamemap))):
-            for posX in range(len(gamemap[posY])):
-                if coordinate == coordinatesmap[posY][posX]:
-                    gamemap[posY][posX] = P1['coin']
+        while flag != 1:
+            if flag == 2:
+                print("Incorrect coordinate entered.")
+            coordinate = input('\nEnter your Coordinates for your coin:')
+            for posY in range(len((gamemap))):
+                for posX in range(len(gamemap[posY])):
+                    if coordinate == coordinatesmap[posY][posX] and gamemap[posY][posX] == ' ':
+                        gamemap[posY][posX] = P1['coin']
+                        coordinatesmap[posY][posX] = 'x'
+                        flag = 1
+                    elif flag != 1:
+                        flag = 2
+                        
         DisplayMap(gamemap)
+        print("------------------------------------------------")
         P1['numofcoins'] -=1
     if turn == 2:
-        print("It's Player2's Turn!")
-        print("(Refer to the Coordinate map)")
+        print(end="It's Player2's Turn!")
+        print("(Please refer to the Coordinate map)")
         DisplayMap(coordinatesmap)
-        coordinate = input('\nEnter your Coordinates for your coin:')
-        for posY in range(len((gamemap))):
-            for posX in range(len(gamemap[posY])):
-                if coordinate == coordinatesmap[posY][posX]:
-                    gamemap[posY][posX] = P2['coin']
+        while flag != 1:
+            if flag == 2:
+                print("Incorrect coordinate entered.")
+            coordinate = input('\nEnter your Coordinates for your coin:')
+            for posY in range(len((gamemap))):
+                for posX in range(len(gamemap[posY])):
+                    if coordinate == coordinatesmap[posY][posX] and gamemap[posY][posX] == ' ':
+                        gamemap[posY][posX] = P2['coin']
+                        coordinatesmap[posY][posX] = 'x'
+                        flag = 1
+                    elif flag != 1:
+                        flag = 2
         DisplayMap(gamemap)
+        print("------------------------------------------------")
         P2['numofcoins'] -=1
     return P1, P2
+
+
+    
+
 
 
 while turnCount != 8:
@@ -71,3 +95,4 @@ while turnCount != 8:
     Player1,Player2 = ExecuteTurn(Player1, Player2, turn)
     turn = NextTurn(turn)
     turnCount += 1
+
