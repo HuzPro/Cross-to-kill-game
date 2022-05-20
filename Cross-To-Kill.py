@@ -45,11 +45,12 @@ def ExecuteTurn(P1, P2, turn):
         print(end="It's Player1's Turn!")
         print("(Refer to the Coordinate map)")
         DisplayMap(coordinatesmap)
+        print("\n")
         while flag != 1:
             if flag == 2:
                 print("Incorrect coordinate entered.")
-            coordinate = input('\nEnter your Coordinates for your coin:')
-            for posY in range(len((gamemap))):
+            coordinate = input('\nEnter your Coordinates for your coin: ')
+            for posY in range(len(gamemap)):
                 for posX in range(len(gamemap[posY])):
                     if coordinate == coordinatesmap[posY][posX] and gamemap[posY][posX] == ' ':
                         gamemap[posY][posX] = P1['coin']
@@ -65,11 +66,12 @@ def ExecuteTurn(P1, P2, turn):
         print(end="It's Player2's Turn!")
         print("(Please refer to the Coordinate map)")
         DisplayMap(coordinatesmap)
+        print("\n")
         while flag != 1:
             if flag == 2:
                 print("Incorrect coordinate entered.")
-            coordinate = input('\nEnter your Coordinates for your coin:')
-            for posY in range(len((gamemap))):
+            coordinate = input('\nEnter your Coordinates for your coin: ')
+            for posY in range(len(gamemap)):
                 for posX in range(len(gamemap[posY])):
                     if coordinate == coordinatesmap[posY][posX] and gamemap[posY][posX] == ' ':
                         gamemap[posY][posX] = P2['coin']
@@ -82,8 +84,31 @@ def ExecuteTurn(P1, P2, turn):
         P2['numofcoins'] -=1
     return P1, P2
 
+def movementCondition(place, piece, coin):
+    pieceX, pieceY, placeX, placeY = 0, 0, 0, 0
+    placeCondition, pieceCondition = 0, 0
+    for PosY in range(len(gamemap)):
+        for PosX in range(len(gamemap[PosY])):
+            if place == coordinatesmap[PosY][PosX]:
+                placeCondition += 1
+                if coordinatesmap[PosY][PosX] == ' ':
+                    placeCondition += 1
+                    placeY, placeX = PosY, PosX
+            if piece == coordinatesmap[PosY][PosX]:
+                pieceCondition += 1
+                if coordinatesmap[PosY][PosX] == coin: #if this is equal to the appropriate player coin (need to add that to parameters)
+                    pieceCondition += 1
+                    pieceY, pieceX = PosY, PosX
+                    
 
+
+    return placeCondition, pieceCondition
     
+def movement():
+    whichPiece = input("Please enter which Queen you'd like to move: ")
+    whichPlace = input("Please enter the valid square you'd like to move that Queen: ")
+
+
 
 
 
