@@ -84,6 +84,8 @@ def ExecuteTurn(P1, P2, turn):
         P2['numofcoins'] -=1
     return P1, P2
 
+#------------------------------------MOVEMENT PART------------------------------------#
+
 def pieceToPlaceCondition(piecex, piecey, placex, placey):
     canMove = 0
     if (piecex-placex) == 1 or (piecex-placex) == -1:
@@ -106,19 +108,37 @@ def movementCondition(place, piece, coin):
                     placeY, placeX = PosY, PosX
             if piece == coordinatesmap[PosY][PosX]:
                 pieceCondition += 1
-                if coordinatesmap[PosY][PosX] == coin: #if this is equal to the appropriate player coin (need to add that to parameters)
+                if coordinatesmap[PosY][PosX] == coin:
                     pieceCondition += 1
                     pieceY, pieceX = PosY, PosX
-    doesItWork = pieceToPlaceCondition(pieceX,pieceY,placeX,placeY)
-                    
-
-
-    return doesItWork
+                
+    if pieceCondition == 0 or placeCondition == 0:
+        place, piece = movementInput()
     
+    
+    
+    
+    # THE ELSE TO ALL THESE IF CONDITIONS WILL HAVE AN ERROR MESSAGE AND THE movementInput FUNCTION AFTER IT
+    doesItWork = pieceToPlaceCondition(pieceX,pieceY,placeX,placeY)
+
+    if doesItWork == 1:
+        return pieceX, pieceY, placeX, placeY
+
+def movementInput():
+    pieceNum = input("Please enter which Queen you'd like to move: ")
+    placeNum = input("Please enter the valid square you'd like to move that Queen: ")
+    return pieceNum, placeNum
+
 def movement(Pcoin):
-    whichPiece = input("Please enter which Queen you'd like to move: ")
-    whichPlace = input("Please enter the valid square you'd like to move that Queen: ")
-    doItWork = movementCondition(whichPlace, whichPiece, Pcoin)
+    whichPiece, whichPlace = movementInput()
+    PieceX, PieceY, PlaceX, PlaceY = movementCondition(whichPlace, whichPiece, Pcoin)
+    
+    gamemap[PlaceX][PlaceY] == Pcoin
+    gamemap[PieceX][PieceY] == ' '
+#NEED TO ADD CHECKS FOR CAPTURING QUEENS
+#NEED TO CHANGE INPUT METHOD TO TELL WHERE TO MOVE THE PIECE TO A DIRECTIONAL ONE
+#NEED TO CHANGE MOVEMENT FUNCTION BECAUSE IT'S LITERALLY USELESS(#makethemovementfunctiongreatagain)
+
 
 
 
