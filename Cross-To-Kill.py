@@ -115,10 +115,10 @@ def movementCondition(place, piece, coin):
 
     return doesItWork
     
-def movement():
+def movement(Pcoin):
     whichPiece = input("Please enter which Queen you'd like to move: ")
     whichPlace = input("Please enter the valid square you'd like to move that Queen: ")
-
+    doItWork = movementCondition(whichPlace, whichPiece, Pcoin)
 
 
 
