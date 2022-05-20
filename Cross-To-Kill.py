@@ -84,6 +84,16 @@ def ExecuteTurn(P1, P2, turn):
         P2['numofcoins'] -=1
     return P1, P2
 
+def pieceToPlaceCondition(piecex, piecey, placex, placey):
+    canMove = 0
+    if (piecex-placex) == 1 or (piecex-placex) == -1:
+        if (piecey-placey) == 0:
+            canMove = 1
+    if (piecey-placey) == 3 or (piecey-placey) == -3:
+        if (piecex-placex) == 0:
+            canMove = 1
+    return canMove
+
 def movementCondition(place, piece, coin):
     pieceX, pieceY, placeX, placeY = 0, 0, 0, 0
     placeCondition, pieceCondition = 0, 0
@@ -99,10 +109,11 @@ def movementCondition(place, piece, coin):
                 if coordinatesmap[PosY][PosX] == coin: #if this is equal to the appropriate player coin (need to add that to parameters)
                     pieceCondition += 1
                     pieceY, pieceX = PosY, PosX
+    doesItWork = pieceToPlaceCondition(pieceX,pieceY,placeX,placeY)
                     
 
 
-    return placeCondition, pieceCondition
+    return doesItWork
     
 def movement():
     whichPiece = input("Please enter which Queen you'd like to move: ")
