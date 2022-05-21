@@ -28,7 +28,7 @@ def CoinToss():
     elif toss == 2:
         print("Player 2 Won the Toss!!!")
         print("------------------------------------------------")
-    return toss
+    return toss, toss
 
 
 def NextTurn(turn):
@@ -158,6 +158,38 @@ def movement(Pcoin):
                 if gamemap[PosY][PosX] == Pcoin:
                     pieceY, pieceX = PosY, PosX
     placeY, placeX = directionCheck(direction, pieceY, pieceX, opCoin)
+    print("PlaceY = "+str(placeY)+" PlaceX = "+str(placeX)+"\nPieceY = "+str(pieceY)+" PieceX = "+str(pieceX)) #NOT WORKING
+
+
+
+
+
+
+
+
+
+#Placement
+#while turnCount != 8:
+#    if turnCount == 0:
+#        turn, movementTurn = CoinToss()
+#        
+#    
+#    Player1,Player2 = ExecuteTurn(Player1, Player2, turn)
+#    turn = NextTurn(turn)
+#    turnCount += 1
+
+#Movement
+gamemap = [['x','o','x'],
+          ['x',' ','o'],
+          ['o','x','o']]
+turn = 2
+if turn == 2:
+    pCoin = Player2['coin']
+elif turn == 1:
+    pCoin = Player1['coin']
+
+movement(pCoin)
+
 
 
 
@@ -219,16 +251,3 @@ def movement(Pcoin):
 #NEED TO CHANGE INPUT METHOD TO TELL WHERE TO MOVE THE PIECE TO A DIRECTIONAL ONE
 #NEED TO CHANGE MOVEMENT FUNCTION BECAUSE IT'S LITERALLY USELESS(#makethemovementfunctiongreatagain)
 
-
-
-
-
-while turnCount != 8:
-    #if turnCount == 0:
-    #    turn = CoinToss()
-    #    
-    #
-    #Player1,Player2 = ExecuteTurn(Player1, Player2, turn)
-    #turn = NextTurn(turn)
-    #turnCount += 1
-    movementInput()
