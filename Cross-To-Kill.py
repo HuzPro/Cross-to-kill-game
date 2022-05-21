@@ -105,7 +105,62 @@ def movementInput():
             print("Incorrect letter entered. Enter a valid letter")
     return pieceNum, placeLetter
 
-#def movement():
+def directionCheck(Direction, piecey, piecex, ocoin):
+    dX, dY = 0, 0
+
+    if Direction == 'w':
+        if piecey-1 >= 1 and piecey-1 <= 2:
+            if gamemap[piecey-1][piecex] == ' ':
+                dX, dY = piecex, piecey-1       #For one step in either direction
+            elif gamemap[piecey-1][piecex] == ocoin:
+                if gamemap[piecey-2][piecex] == ' ':
+                    dX, dY = piecex, piecey-2   #For two steps in either direction
+    if Direction == 's':
+        if piecey+1 >= 2 and piecey+1 <= 3:
+            if gamemap[piecey+1][piecex] == ' ':
+                dX, dY = piecex, piecey+1       #For one step in either direction
+            elif gamemap[piecey+1][piecex] == ocoin:
+                if gamemap[piecey+2][piecex] == ' ':
+                    dX, dY = piecex, piecey+2
+    if Direction == 'a':
+        if piecex-1 >= 1 and piecex-1 <= 2:
+            if gamemap[piecey][piecex-1] == ' ':
+                dX, dY = piecex-1, piecey       #For one step in either direction
+            elif gamemap[piecey][piecex-1] == ocoin:
+                if gamemap[piecey][piecex-2] == ' ':
+                    dX, dY = piecex-2, piecey   #For two steps in either direction
+    if Direction == 'd':
+        if piecex+1 >= 2 and piecex+1 <= 3:
+            if gamemap[piecey][piecex+1] == ' ':
+                dX, dY = piecex+1, piecey       #For one step in either direction
+            elif gamemap[piecey][piecex+1] == ocoin:
+                if gamemap[piecey][piecex+2] == ' ':
+                    dX, dY = piecex+2, piecey   #For two steps in either direction
+    return dX, dY
+
+
+
+
+def movement(Pcoin):
+    coordinateCheck = [['7','8','9'],
+                      ['4','5','6'],
+                      ['1','2','3']]
+    pieceY, pieceX, placeY, placeX = 0, 0, 0, 0
+    if Pcoin == 'x':
+        opCoin = 'o'
+    if Pcoin == 'o':
+        opCoin = 'x'
+
+    piece, direction = movementInput() #Taking input
+    for PosY in range(len(gamemap)):
+        for PosX in range(len(gamemap[PosY])):
+            if coordinateCheck[PosY][PosX] == piece:
+                if gamemap[PosY][PosX] == Pcoin:
+                    pieceY, pieceX = PosY, PosX
+    placeY, placeX = directionCheck(direction, pieceY, pieceX, opCoin)
+
+
+
 
 
 
