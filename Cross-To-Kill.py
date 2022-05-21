@@ -85,56 +85,81 @@ def ExecuteTurn(P1, P2, turn):
     return P1, P2
 
 #------------------------------------MOVEMENT PART------------------------------------#
-
-def pieceToPlaceCondition(piecex, piecey, placex, placey):
-    canMove = 0
-    if (piecex-placex) == 1 or (piecex-placex) == -1:
-        if (piecey-placey) == 0:
-            canMove = 1
-    if (piecey-placey) == 3 or (piecey-placey) == -3:
-        if (piecex-placex) == 0:
-            canMove = 1
-    return canMove
-
-def movementCondition(place, piece, coin):
-    pieceX, pieceY, placeX, placeY = 0, 0, 0, 0
-    placeCondition, pieceCondition = 0, 0
-    for PosY in range(len(gamemap)):
-        for PosX in range(len(gamemap[PosY])):
-            if place == coordinatesmap[PosY][PosX]:
-                placeCondition += 1
-                if coordinatesmap[PosY][PosX] == ' ':
-                    placeCondition += 1
-                    placeY, placeX = PosY, PosX
-            if piece == coordinatesmap[PosY][PosX]:
-                pieceCondition += 1
-                if coordinatesmap[PosY][PosX] == coin:
-                    pieceCondition += 1
-                    pieceY, pieceX = PosY, PosX
-                
-    if pieceCondition == 0 or placeCondition == 0:
-        place, piece = movementInput()
-    
-    
-    
-    
-    # THE ELSE TO ALL THESE IF CONDITIONS WILL HAVE AN ERROR MESSAGE AND THE movementInput FUNCTION AFTER IT
-    doesItWork = pieceToPlaceCondition(pieceX,pieceY,placeX,placeY)
-
-    if doesItWork == 1:
-        return pieceX, pieceY, placeX, placeY
-
 def movementInput():
-    pieceNum = input("Please enter which Queen you'd like to move: ")
-    placeNum = input("Please enter the valid square you'd like to move that Queen: ")
-    return pieceNum, placeNum
+    while True:
+        pieceNum = 0
+        try:
+            pieceNum = int(input("\nPlease enter which Queen you'd like to move: "))
+        except:
+            print("That is a letter...")
+        if pieceNum > 0 and pieceNum < 10:
+            break
+        else:
+            print("Incorrect number entered. Enter a valid number.")
+    while True:
+        placeLetter = str(input("\nPlease enter which direction you'd like to move that Queen. Pick from the following directions: W=Up, S=Down, A=Left, D=Right\nEnter the Direction letter(W,S,A,D): "))
+        print(placeLetter)
+        if placeLetter == 'w' or placeLetter == 'a' or placeLetter == 's' or placeLetter == 'd':
+            break
+        else:
+            print("Incorrect letter entered. Enter a valid letter")
+    return pieceNum, placeLetter
 
-def movement(Pcoin):
-    whichPiece, whichPlace = movementInput()
-    PieceX, PieceY, PlaceX, PlaceY = movementCondition(whichPlace, whichPiece, Pcoin)
-    
-    gamemap[PlaceX][PlaceY] == Pcoin
-    gamemap[PieceX][PieceY] == ' '
+#def movement():
+
+
+
+
+#def pieceToPlaceCondition(piecex, piecey, placex, placey):
+#    canMove = 0
+#    if (piecex-placex) == 1 or (piecex-placex) == -1:
+#        if (piecey-placey) == 0:
+#            canMove = 1
+#    if (piecey-placey) == 3 or (piecey-placey) == -3:
+#        if (piecex-placex) == 0:
+#            canMove = 1
+#    return canMove
+#
+#def movementCondition(place, piece, coin):
+#    pieceX, pieceY, placeX, placeY = 0, 0, 0, 0
+#    placeCondition, pieceCondition = 0, 0
+#    for PosY in range(len(gamemap)):
+#        for PosX in range(len(gamemap[PosY])):
+#            if place == coordinatesmap[PosY][PosX]:
+#                placeCondition += 1
+#                if coordinatesmap[PosY][PosX] == ' ':
+#                    placeCondition += 1
+#                    placeY, placeX = PosY, PosX
+#            if piece == coordinatesmap[PosY][PosX]:
+#                pieceCondition += 1
+#                if coordinatesmap[PosY][PosX] == coin:
+#                    pieceCondition += 1
+#                    pieceY, pieceX = PosY, PosX
+#                
+#    if pieceCondition == 0 or placeCondition == 0:
+#        place, piece = movementInput()
+#    
+#    
+#    
+#    
+#    # THE ELSE TO ALL THESE IF CONDITIONS WILL HAVE AN ERROR MESSAGE AND THE movementInput FUNCTION AFTER IT
+#    doesItWork = pieceToPlaceCondition(pieceX,pieceY,placeX,placeY)
+#
+#    if doesItWork == 1:
+#        return pieceX, pieceY, placeX, placeY
+#
+#def movementInput():
+#    pieceNum = input("Please enter which Queen you'd like to move: ")
+#    placeNum = input("Please enter the valid square you'd like to move that Queen: ")
+#    return pieceNum, placeNum
+#
+#def movement(Pcoin):
+#    whichPiece, whichPlace = movementInput()
+#    PieceX, PieceY, PlaceX, PlaceY = movementCondition(whichPlace, whichPiece, Pcoin)
+#    
+#    gamemap[PlaceX][PlaceY] == Pcoin
+#    gamemap[PieceX][PieceY] == ' '
+
 #NEED TO ADD CHECKS FOR CAPTURING QUEENS
 #NEED TO CHANGE INPUT METHOD TO TELL WHERE TO MOVE THE PIECE TO A DIRECTIONAL ONE
 #NEED TO CHANGE MOVEMENT FUNCTION BECAUSE IT'S LITERALLY USELESS(#makethemovementfunctiongreatagain)
@@ -144,11 +169,11 @@ def movement(Pcoin):
 
 
 while turnCount != 8:
-    if turnCount == 0:
-        turn = CoinToss()
-        
-    
-    Player1,Player2 = ExecuteTurn(Player1, Player2, turn)
-    turn = NextTurn(turn)
-    turnCount += 1
-
+    #if turnCount == 0:
+    #    turn = CoinToss()
+    #    
+    #
+    #Player1,Player2 = ExecuteTurn(Player1, Player2, turn)
+    #turn = NextTurn(turn)
+    #turnCount += 1
+    movementInput()
