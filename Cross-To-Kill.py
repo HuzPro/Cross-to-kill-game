@@ -2,12 +2,15 @@ Player1 = {'coin':'x','numofcoins':4}
 Player2 = {'coin':'o','numofcoins':4}
 
 turnCount = 0
-gamemap = [[' ',' ',' '],
-          [' ',' ',' '],
-          [' ',' ',' ']]
-coordinatesmap = [['7','8','9'],
-                 ['4','5','6'],
-                 ['1','2','3']]
+gamemap = [['x','o','x'],
+           ['x','x','o'],
+           ['o',' ','o']]
+#gamemap = [[' ',' ',' '],
+#           [' ',' ',' '],
+#           [' ',' ',' ']]
+coordinatesmap = [[7,8,9],
+                  [4,5,6],
+                  [1,2,3]]
 coordinate = 0
 
 
@@ -84,6 +87,8 @@ def ExecuteTurn(P1, P2, turn):
         P2['numofcoins'] -=1
     return P1, P2
 
+
+
 #------------------------------------MOVEMENT PART------------------------------------#
 def movementInput():
     while True:
@@ -108,42 +113,45 @@ def directionCheck(Direction, piecey, piecex, ocoin):
     dX, dY = 0, 0
 
     if Direction == 'w':
-        if piecey-1 >= 1 and piecey-1 <= 2:
+        if piecey-1 >= 0 and piecey-1 <= 1:
             if gamemap[piecey-1][piecex] == ' ':
-                dX, dY = piecex, piecey-1       #For one step in either direction
+                dX, dY = piecex, piecey-1        #For one step in either direction
             elif gamemap[piecey-1][piecex] == ocoin:
                 if gamemap[piecey-2][piecex] == ' ':
                     dX, dY = piecex, piecey-2   #For two steps in either direction
+                    gamemap[piecey-1][piecex] = ' '
     if Direction == 's':
-        if piecey+1 >= 2 and piecey+1 <= 3:
+        if (piecey+1) >= 1 and (piecey+1) <= 2:
             if gamemap[piecey+1][piecex] == ' ':
-                dX, dY = piecex, piecey+1       #For one step in either direction
+                print("1 space coordinates being empty check successful")
+                dX, dY = piecex, piecey+1        #For one step in either direction
             elif gamemap[piecey+1][piecex] == ocoin:
                 if gamemap[piecey+2][piecex] == ' ':
-                    dX, dY = piecex, piecey+2
+                    dX, dY = piecex, piecey+2   #For two steps in either direction
+                    gamemap[piecey+1][piecex] = ' '
     if Direction == 'a':
-        if piecex-1 >= 1 and piecex-1 <= 2:
+        if piecex-1 >= 0 and piecex-1 <= 1:
             if gamemap[piecey][piecex-1] == ' ':
-                dX, dY = piecex-1, piecey       #For one step in either direction
+                dX, dY = piecex-1, piecey        #For one step in either direction
             elif gamemap[piecey][piecex-1] == ocoin:
                 if gamemap[piecey][piecex-2] == ' ':
                     dX, dY = piecex-2, piecey   #For two steps in either direction
+                    gamemap[piecey][piecex-1] = ' '
     if Direction == 'd':
-        if piecex+1 >= 2 and piecex+1 <= 3:
+        if piecex+1 >= 1 and piecex+1 <= 2:
             if gamemap[piecey][piecex+1] == ' ':
-                dX, dY = piecex+1, piecey       #For one step in either direction
+                dX, dY = piecex+1, piecey        #For one step in either direction
             elif gamemap[piecey][piecex+1] == ocoin:
                 if gamemap[piecey][piecex+2] == ' ':
                     dX, dY = piecex+2, piecey   #For two steps in either direction
-    return dX, dY
-
-
+                    gamemap[piecey][piecex+1] = ' '
+    return dY, dX
 
 
 def movement(Pcoin):
-    coordinateCheck = [['7','8','9'],
-                      ['4','5','6'],
-                      ['1','2','3']]
+    coordinateCheck = [[7,8,9],
+                       [4,5,6],
+                       [1,2,3]]
     pieceY, pieceX, placeY, placeX = 0, 0, 0, 0
     if Pcoin == 'x':
         opCoin = 'o'
@@ -151,13 +159,20 @@ def movement(Pcoin):
         opCoin = 'x'
 
     piece, direction = movementInput() #Taking input
+    print("\n\nPiece: "+str(piece)+", Direction: "+direction)
     for PosY in range(len(gamemap)):
         for PosX in range(len(gamemap[PosY])):
             if coordinateCheck[PosY][PosX] == piece:
                 if gamemap[PosY][PosX] == Pcoin:
                     pieceY, pieceX = PosY, PosX
     placeY, placeX = directionCheck(direction, pieceY, pieceX, opCoin)
-    print("PlaceY = "+str(placeY)+" PlaceX = "+str(placeX)+"\nPieceY = "+str(pieceY)+" PieceX = "+str(pieceX)) #NOT WORKING
+    print("PlaceX = "+str(placeX)+" PlaceY = "+str(placeY)+"\nPieceX = "+str(pieceX)+" PieceY = "+str(pieceY)) #WORKING
+    
+    gamemap[placeY][placeX] = Pcoin
+    gamemap[pieceY][pieceX] = ' '
+
+    for x in gamemap:
+        print(x)
 
 
 
@@ -178,75 +193,26 @@ def movement(Pcoin):
 #    turnCount += 1
 
 #Movement
-gamemap = [['x','o','x'],
-          ['x',' ','o'],
-          ['o','x','o']]
-for x in gamemap:
-    print(x)
+
 turn = 2
-if turn == 2:
-    pCoin = Player2['coin']
-elif turn == 1:
-    pCoin = Player1['coin']
 
-movement(pCoin)
+endGame = 0
+while endGame == 0:
+    for x in gamemap:
+        print(x)
+
+    if turn == 1:
+        pCoin = Player1['coin']
+    elif turn == 2:
+        pCoin = Player2['coin']
+
+    movement(pCoin)
+    if turn == 1:
+        turn += 1
+    elif turn == 2:
+        turn -= 1
 
 
-
-
-
-
-
-
-#def pieceToPlaceCondition(piecex, piecey, placex, placey):
-#    canMove = 0
-#    if (piecex-placex) == 1 or (piecex-placex) == -1:
-#        if (piecey-placey) == 0:
-#            canMove = 1
-#    if (piecey-placey) == 3 or (piecey-placey) == -3:
-#        if (piecex-placex) == 0:
-#            canMove = 1
-#    return canMove
-#
-#def movementCondition(place, piece, coin):
-#    pieceX, pieceY, placeX, placeY = 0, 0, 0, 0
-#    placeCondition, pieceCondition = 0, 0
-#    for PosY in range(len(gamemap)):
-#        for PosX in range(len(gamemap[PosY])):
-#            if place == coordinatesmap[PosY][PosX]:
-#                placeCondition += 1
-#                if coordinatesmap[PosY][PosX] == ' ':
-#                    placeCondition += 1
-#                    placeY, placeX = PosY, PosX
-#            if piece == coordinatesmap[PosY][PosX]:
-#                pieceCondition += 1
-#                if coordinatesmap[PosY][PosX] == coin:
-#                    pieceCondition += 1
-#                    pieceY, pieceX = PosY, PosX
-#                
-#    if pieceCondition == 0 or placeCondition == 0:
-#        place, piece = movementInput()
-#    
-#    
-#    
-#    
-#    # THE ELSE TO ALL THESE IF CONDITIONS WILL HAVE AN ERROR MESSAGE AND THE movementInput FUNCTION AFTER IT
-#    doesItWork = pieceToPlaceCondition(pieceX,pieceY,placeX,placeY)
-#
-#    if doesItWork == 1:
-#        return pieceX, pieceY, placeX, placeY
-#
-#def movementInput():
-#    pieceNum = input("Please enter which Queen you'd like to move: ")
-#    placeNum = input("Please enter the valid square you'd like to move that Queen: ")
-#    return pieceNum, placeNum
-#
-#def movement(Pcoin):
-#    whichPiece, whichPlace = movementInput()
-#    PieceX, PieceY, PlaceX, PlaceY = movementCondition(whichPlace, whichPiece, Pcoin)
-#    
-#    gamemap[PlaceX][PlaceY] == Pcoin
-#    gamemap[PieceX][PieceY] == ' '
 
 #NEED TO ADD CHECKS FOR CAPTURING QUEENS
 #NEED TO CHANGE INPUT METHOD TO TELL WHERE TO MOVE THE PIECE TO A DIRECTIONAL ONE
