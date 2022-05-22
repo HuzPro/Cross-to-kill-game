@@ -98,7 +98,6 @@ def movementInput():
             print("Incorrect number entered. Enter a valid number.")
     while True:
         placeLetter = str(input("\nPlease enter which direction you'd like to move that Queen. Pick from the following directions: W=Up, S=Down, A=Left, D=Right\nEnter the Direction letter(W,S,A,D): "))
-        print(placeLetter)
         if placeLetter == 'w' or placeLetter == 'a' or placeLetter == 's' or placeLetter == 'd':
             break
         else:
@@ -182,6 +181,8 @@ def movement(Pcoin):
 gamemap = [['x','o','x'],
           ['x',' ','o'],
           ['o','x','o']]
+for x in gamemap:
+    print(x)
 turn = 2
 if turn == 2:
     pCoin = Player2['coin']
