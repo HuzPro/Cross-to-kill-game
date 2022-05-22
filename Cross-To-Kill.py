@@ -2,12 +2,12 @@ Player1 = {'coin':'x','numofcoins':4}
 Player2 = {'coin':'o','numofcoins':4}
 
 turnCount = 0
-#gamemap = [['x','o','x'],
-#           ['x','x','o'],
-#           ['o',' ','o']]
-gamemap = [[' ',' ',' '],
-           [' ',' ',' '],
-           [' ',' ',' ']]
+gamemap = [['x','x','o'],
+           [' ',' ','x'],
+           [' ',' ','x']]
+#gamemap = [[' ',' ',' '],
+#           [' ',' ',' '],
+#           [' ',' ',' ']]
 coordinatesmap = [[7,8,9],
                   [4,5,6],
                   [1,2,3]]
@@ -129,7 +129,6 @@ def directionCheck(Direction, piecey, piecex, ocoin):
     if Direction == 's':
         if (piecey+1) >= 1 and (piecey+1) <= 2:
             if gamemap[piecey+1][piecex] == ' ':
-                print("1 space coordinates being empty check successful")
                 dX, dY = piecex, piecey+1        #For one step in either direction
             elif gamemap[piecey+1][piecex] == ocoin:
                 if gamemap[piecey+2][piecex] == ' ':
@@ -165,62 +164,96 @@ def movement(Pcoin):
         opCoin = 'x'
 
     piece, direction = movementInput() #Taking input
-    print("\n\nPiece: "+str(piece)+", Direction: "+direction)
+    #print("\n\nPiece: "+str(piece)+", Direction: "+direction) #(To check if the values are working) It's working.
     for PosY in range(len(gamemap)):
         for PosX in range(len(gamemap[PosY])):
             if coordinateCheck[PosY][PosX] == piece:
                 if gamemap[PosY][PosX] == Pcoin:
                     pieceY, pieceX = PosY, PosX
     placeY, placeX = directionCheck(direction, pieceY, pieceX, opCoin)
-    print("PlaceX = "+str(placeX)+" PlaceY = "+str(placeY)+"\nPieceX = "+str(pieceX)+" PieceY = "+str(pieceY)) #WORKING
+    #print("PlaceX = "+str(placeX)+" PlaceY = "+str(placeY)+"\nPieceX = "+str(pieceX)+" PieceY = "+str(pieceY)) #(To check if the values are working) It's working.
     
     gamemap[placeY][placeX] = Pcoin
     gamemap[pieceY][pieceX] = ' '
 
-    for x in gamemap:
-        print(x)
 
 
-
-
-
-
-
-
-
-#Placement
-while turnCount != 8:
-    if turnCount == 0:
-        turn, movementTurn = CoinToss()
-        
+def gameEndCheck(pcoin):
+    doesItEnd = 0
     
-    Player1,Player2 = ExecuteTurn(Player1, Player2, turn)
-    turn = NextTurn(turn)
-    turnCount += 1
+    for PosY in range(len(gamemap)):
+        for PosX in range(len(gamemap[PosY])):
+            if gamemap[PosY][PosX] != pcoin:
+                doesItEnd == 1
+                print("\nNo Pieces left.")
+            if gamemap[PosY][PosX] == pcoin:
+                if PosY+1 == 1 or PosY+1 == 2:
+                    if gamemap[PosY+1][PosX] != ' ':
+                        if PosY+2 == 2:
+                            if gamemap[PosY+2][PosX] != ' ':
+                                if PosY-1 == 0 or PosY-2 == 1:
+                                    if gamemap[PosY-1][PosX] != ' ':
+                                        if PosY-2 == 0:
+                                            if gamemap[PosY-2][PosX] != ' ':
+                                                if PosX+1 == 1 or PosX+1 == 2:
+                                                    if gamemap[PosY][PosX+1] != ' ':
+                                                        if PosX+2 == 2:
+                                                            if gamemap[PosY][PosX+2] != ' ':
+                                                                if PosX-1 == 0 or PosX-2 == 1:
+                                                                    if gamemap[PosY][PosX-1] != ' ':
+                                                                        if PosX-2 == 0:
+                                                                            if gamemap[PosY][PosX-2] != ' ':
+                                                                                doesItEnd == 1
 
-#Movement
-
-#turn = 2
-
-endGame = 0
-while endGame == 0:
-    for x in gamemap:
-        print(x)
-
-    if turn == 1:
-        pCoin = Player1['coin']
-    elif turn == 2:
-        pCoin = Player2['coin']
-
-    movement(pCoin)
-    if turn == 1:
-        turn += 1
-    elif turn == 2:
-        turn -= 1
+    return doesItEnd
 
 
 
-#NEED TO ADD CHECKS FOR CAPTURING QUEENS
-#NEED TO CHANGE INPUT METHOD TO TELL WHERE TO MOVE THE PIECE TO A DIRECTIONAL ONE
-#NEED TO CHANGE MOVEMENT FUNCTION BECAUSE IT'S LITERALLY USELESS(#makethemovementfunctiongreatagain)
+
+
+
+
+
+##Placement
+#while turnCount != 8:
+#    if turnCount == 0:
+#        turn, movementTurn = CoinToss()
+#        
+#    
+#    Player1,Player2 = ExecuteTurn(Player1, Player2, turn)
+#    turn = NextTurn(turn)
+#    turnCount += 1
+#
+##Movement
+#endGame = 0
+#
+#while endGame == 0:
+#    for x in gamemap:
+#        print(x)
+#
+#    if turn == 1:
+#        pCoin = Player1['coin']
+#        print("It's player 1's turn.")
+#    elif turn == 2:
+#        pCoin = Player2['coin']
+#        print("It's player 2's turn.")
+#
+#    movement(pCoin)
+#    if turn == 1:
+#        turn += 1
+#    elif turn == 2:
+#        turn -= 1
+
+pCoin = 'o'
+
+endCheck = gameEndCheck(pCoin)
+print(str(endCheck))
+if endCheck == 1:
+    print("\n\n\t\t\tGame Over")
+
+
+
+#NEED TO ADD CHECKS FOR CAPTURING QUEENS ✓
+#NEED TO CHANGE INPUT METHOD TO TELL WHERE TO MOVE THE PIECE TO A DIRECTIONAL ONE ✓
+#NEED TO CHANGE MOVEMENT FUNCTION BECAUSE IT'S LITERALLY USELESS(#makethemovementfunctiongreatagain) ✓
 
