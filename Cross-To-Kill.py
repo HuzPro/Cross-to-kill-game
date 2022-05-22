@@ -2,15 +2,18 @@ Player1 = {'coin':'x','numofcoins':4}
 Player2 = {'coin':'o','numofcoins':4}
 
 turnCount = 0
-gamemap = [['x','o','x'],
-           ['x','x','o'],
-           ['o',' ','o']]
-#gamemap = [[' ',' ',' '],
-#           [' ',' ',' '],
-#           [' ',' ',' ']]
+#gamemap = [['x','o','x'],
+#           ['x','x','o'],
+#           ['o',' ','o']]
+gamemap = [[' ',' ',' '],
+           [' ',' ',' '],
+           [' ',' ',' ']]
 coordinatesmap = [[7,8,9],
                   [4,5,6],
                   [1,2,3]]
+coordinatesDisplayMap = [['7','8','9'],
+                         ['4','5','6'],
+                         ['1','2','3']]
 coordinate = 0
 
 
@@ -50,15 +53,17 @@ def ExecuteTurn(P1, P2, turn):
         DisplayMap(coordinatesmap)
         print("\n")
         while flag != 1:
+            print(str(flag))
             if flag == 2:
                 print("Incorrect coordinate entered.")
-            coordinate = input('\nEnter your Coordinates for your coin: ')
+            coordinate = int(input('\nEnter your Coordinates for your coin: '))
             for posY in range(len(gamemap)):
                 for posX in range(len(gamemap[posY])):
                     if coordinate == coordinatesmap[posY][posX] and gamemap[posY][posX] == ' ':
                         gamemap[posY][posX] = P1['coin']
                         coordinatesmap[posY][posX] = 'x'
                         flag = 1
+                        
                     elif flag != 1:
                         flag = 2
                         
@@ -71,9 +76,10 @@ def ExecuteTurn(P1, P2, turn):
         DisplayMap(coordinatesmap)
         print("\n")
         while flag != 1:
+            print(str(flag))
             if flag == 2:
                 print("Incorrect coordinate entered.")
-            coordinate = input('\nEnter your Coordinates for your coin: ')
+            coordinate = int(input('\nEnter your Coordinates for your coin: '))
             for posY in range(len(gamemap)):
                 for posX in range(len(gamemap[posY])):
                     if coordinate == coordinatesmap[posY][posX] and gamemap[posY][posX] == ' ':
@@ -183,18 +189,18 @@ def movement(Pcoin):
 
 
 #Placement
-#while turnCount != 8:
-#    if turnCount == 0:
-#        turn, movementTurn = CoinToss()
-#        
-#    
-#    Player1,Player2 = ExecuteTurn(Player1, Player2, turn)
-#    turn = NextTurn(turn)
-#    turnCount += 1
+while turnCount != 8:
+    if turnCount == 0:
+        turn, movementTurn = CoinToss()
+        
+    
+    Player1,Player2 = ExecuteTurn(Player1, Player2, turn)
+    turn = NextTurn(turn)
+    turnCount += 1
 
 #Movement
 
-turn = 2
+#turn = 2
 
 endGame = 0
 while endGame == 0:
