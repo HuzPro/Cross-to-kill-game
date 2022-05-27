@@ -14,6 +14,9 @@ coordinatesmap = [[7,8,9],
 coordinatesDisplayMap = [['7','8','9'],
                          ['4','5','6'],
                          ['1','2','3']]
+coordinatesMapCondition = [[7,8,9],
+                           [4,5,6],
+                           [1,2,3]]
 coordinate = 0
 
 
@@ -92,17 +95,24 @@ def ExecuteTurn(P1, P2, turn):
 
 
 #------------------------------------MOVEMENT PART------------------------------------#
-def movementInput():
-    while True:
+def movementInput(Pcoin):
+    print(Pcoin)
+    flag = 0
+    while flag != 1:
         pieceNum = 0
         try:
             pieceNum = int(input("\nPlease enter which Queen you'd like to move: "))
         except:
             print("That is a letter...")
-        if pieceNum > 0 and pieceNum < 10:
-            break
-        else:
+        
+        for posy in range(len(gamemap)):
+            for posx in range(len(gamemap)):
+                if coordinatesMapCondition[posy][posx] == pieceNum:
+                    if gamemap[posy][posx] == Pcoin:
+                        flag = 1
+        if pieceNum >= 10 or pieceNum <= 0:
             print("Incorrect number entered. Enter a valid number.")
+
     while True:
         placeLetter = str(input("\nPlease enter which direction you'd like to move that Queen. Pick from the following directions: W=Up, S=Down, A=Left, D=Right\nEnter the Direction letter(W,S,A,D): "))
         if placeLetter == 'w' or placeLetter == 'a' or placeLetter == 's' or placeLetter == 'd':
@@ -110,6 +120,8 @@ def movementInput():
         else:
             print("Incorrect letter entered. Enter a valid letter")
     return pieceNum, placeLetter
+
+
 
 def directionCheck(Direction, piecey, piecex, ocoin):
     dX, dY = 0, 0
@@ -159,7 +171,7 @@ def movement(Pcoin):
     if Pcoin == 'o':
         opCoin = 'x'
 
-    piece, direction = movementInput() #Taking input
+    piece, direction = movementInput(Pcoin) #Taking input
     #print("\n\nPiece: "+str(piece)+", Direction: "+direction) #(To check if the values are working) It's working.
     for PosY in range(len(gamemap)):
         for PosX in range(len(gamemap[PosY])):
