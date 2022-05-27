@@ -2,8 +2,8 @@ Player1 = {'coin':'x','numofcoins':4}
 Player2 = {'coin':'o','numofcoins':4}
 
 turnCount = 0
-gamemap = [['x','x','o'],
-           [' ',' ','x'],
+gamemap = [[' ',' ','x'],
+           ['x','x','o'],
            [' ',' ','x']]
 #gamemap = [[' ',' ',' '],
 #           [' ',' ',' '],
@@ -69,7 +69,6 @@ def ExecuteTurn(P1, P2, turn):
                         
         DisplayMap(gamemap)
         print("------------------------------------------------")
-        P1['numofcoins'] -=1
     if turn == 2:
         print(end="It's Player2's Turn!")
         print("(Please refer to the Coordinate map)")
@@ -90,7 +89,6 @@ def ExecuteTurn(P1, P2, turn):
                         flag = 2
         DisplayMap(gamemap)
         print("------------------------------------------------")
-        P2['numofcoins'] -=1
     return P1, P2
 
 
@@ -177,33 +175,86 @@ def movement(Pcoin):
     gamemap[pieceY][pieceX] = ' '
 
 
-
-def gameEndCheck(pcoin):
-    doesItEnd = 0
-    
+def noPieceCheck(pcoin):
+    flag = 0
     for PosY in range(len(gamemap)):
         for PosX in range(len(gamemap[PosY])):
             if gamemap[PosY][PosX] != pcoin:
-                doesItEnd == 1
-                print("\nNo Pieces left.")
+                flag = 1
             if gamemap[PosY][PosX] == pcoin:
-                if PosY+1 == 1 or PosY+1 == 2:
-                    if gamemap[PosY+1][PosX] != ' ':
-                        if PosY+2 == 2:
-                            if gamemap[PosY+2][PosX] != ' ':
-                                if PosY-1 == 0 or PosY-2 == 1:
-                                    if gamemap[PosY-1][PosX] != ' ':
-                                        if PosY-2 == 0:
-                                            if gamemap[PosY-2][PosX] != ' ':
-                                                if PosX+1 == 1 or PosX+1 == 2:
-                                                    if gamemap[PosY][PosX+1] != ' ':
-                                                        if PosX+2 == 2:
-                                                            if gamemap[PosY][PosX+2] != ' ':
-                                                                if PosX-1 == 0 or PosX-2 == 1:
-                                                                    if gamemap[PosY][PosX-1] != ' ':
-                                                                        if PosX-2 == 0:
-                                                                            if gamemap[PosY][PosX-2] != ' ':
-                                                                                doesItEnd == 1
+                return 2
+    return flag
+
+def gameEndConditions(pCoin, P1, P2, PosY, PosX):
+    doesItEnd = 0
+    if gamemap[PosY][PosX] == pCoin:
+        if PosY+2 == 2:
+            if gamemap[PosY+1][PosX] == ' ' or gamemap[PosY+2][PosX] == ' ':
+                doesItEnd = 0
+                return doesItEnd
+            elif gamemap[PosY+1][PosX] != ' ' and gamemap[PosY+2][PosX] != ' ':
+                if PosX+2 == 2:
+                    if gamemap[PosY][PosX+1] == ' ' or gamemap[PosY][PosX+2] == ' ':
+                        doesItEnd = 0
+                        return doesItEnd
+                    elif gamemap[PosY][PosX+1] != ' ' and gamemap[PosY][PosX+2] != ' ':
+                        doesItEnd = 1
+                        return doesItEnd
+                elif PosX-1 == 0 and PosX+1 == 2:
+                    if gamemap[PosY][PosX-1] == ' ' or gamemap[PosY][PosX+1] == ' ':
+                        doesItEnd = 0
+                        return doesItEnd
+                    elif gamemap[PosY][PosX-1] != ' ' and gamemap[PosY][PosX+1] != ' ':
+                        doesItEnd = 1
+                        return doesItEnd
+                elif PosX-2 == 0:
+                    if gamemap[PosY][PosX-1] != ' ' and gamemap[PosY][PosX-2] == ' ':
+                        doesItEnd = 0
+                        return doesItEnd
+                    if gamemap[PosY][PosX-1] != ' ' and gamemap[PosY][PosX-2] != ' ':
+                        doesItEnd = 1
+                        return doesItEnd
+        elif PosY-1 == 0 and PosY+1 == 2:
+            if gamemap[PosY-1][PosX] != ' ' and gamemap[PosY+1][PosX] != ' ':
+                if PosX+2 == 2:
+                    if gamemap[PosY][PosX+1] != ' ' and gamemap[PosY][PosX+2] != ' ':
+                        doesItEnd = 1
+                        return doesItEnd
+                elif PosX-1 == 0 and PosX+1 == 2:
+                    if gamemap[PosY][PosX-1] != ' ' and gamemap[PosY][PosX+1] != ' ':
+                        doesItEnd = 1
+                        return doesItEnd
+                elif PosX-2 == 0:
+                    if gamemap[PosY][PosX-1] != ' ' and gamemap[PosY][PosX-2] != ' ':
+                        doesItEnd = 1
+                        return doesItEnd
+        elif PosY-2 == 0:
+            if gamemap[PosY-1][PosX] != ' ' and gamemap[PosY-2][PosX] != ' ':
+                if PosX+2 == 2:
+                    if gamemap[PosY][PosX+1] != ' ' and gamemap[PosY][PosX+2] != ' ':
+                        doesItEnd = 1
+                        return doesItEnd
+                elif PosX-1 == 0 and PosX+1 == 2:
+                    if gamemap[PosY][PosX-1] != ' ' and gamemap[PosY][PosX+1] != ' ':
+                        doesItEnd = 1
+                        return doesItEnd
+                elif PosX-2 == 0:
+                    if gamemap[PosY][PosX-1] != ' ' and gamemap[PosY][PosX-2] != ' ':
+                        doesItEnd = 1
+                        return doesItEnd
+    return doesItEnd
+
+
+def gameEndCheck(pcoin, p1, p2):
+    doesItEnd = 0
+    print("Checking conditions...")
+    doesItEnd = noPieceCheck(pcoin)
+    if (doesItEnd == 1):
+        return 2
+    for PosY in range(len(gamemap)):
+        for PosX in range(len(gamemap[PosY])):
+            doesItEnd = gameEndConditions(pcoin, p1, p2, PosY, PosX)
+
 
     return doesItEnd
 
@@ -241,19 +292,22 @@ def gameEndCheck(pcoin):
 #    movement(pCoin)
 #    if turn == 1:
 #        turn += 1
+#        Player1['numofcoins'] -= 1
 #    elif turn == 2:
 #        turn -= 1
+#        Player2['numofcoins'] -= 1
 
 pCoin = 'o'
 
-endCheck = gameEndCheck(pCoin)
-print(str(endCheck))
+endCheck = gameEndCheck(pCoin, Player1, Player2)
+print("endCheck Value: "+str(endCheck))
 if endCheck == 1:
-    print("\n\n\t\t\tGame Over")
+    print("\nGame Over\n")
+elif endCheck == 2:
+    print("\nNo Pieces Left\n")
 
 
 
 #NEED TO ADD CHECKS FOR CAPTURING QUEENS ✓
 #NEED TO CHANGE INPUT METHOD TO TELL WHERE TO MOVE THE PIECE TO A DIRECTIONAL ONE ✓
 #NEED TO CHANGE MOVEMENT FUNCTION BECAUSE IT'S LITERALLY USELESS(#makethemovementfunctiongreatagain) ✓
-
